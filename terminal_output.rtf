@@ -1,0 +1,178 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1671\cocoasubrtf600
+{\fonttbl\f0\fnil\fcharset0 Menlo-Regular;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;\red202\green51\blue35;}
+{\*\expandedcolortbl;;\csgray\c0;\cssrgb\c83898\c28665\c18024;}
+\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\f0\fs22 \cf2 \CocoaLigature0 Last login: Wed Feb  3 17:18:37 on ttys001\
+Elizas-MacBook-Pro:~ elizato$ docker run -dt -v postgres-data:/var/lib/postgresql/data -e POSTGRES_PASSWORD=password postgres:latest\
+\
+Unable to find image 'postgres:latest' locally\
+latest: Pulling from library/postgres\
+a076a628af6f: Pull complete \
+d54fa0e0eb76: Pull complete \
+8950a7ea6876: Pull complete \
+1cc02b1df09e: Pull complete \
+06f548e51228: Pull complete \
+74665692d4ea: Pull complete \
+235e34eb13ab: Pull complete \
+4ad7ef5e2e79: Pull complete \
+76670339b0f8: Pull complete \
+496fa0539f99: Pull complete \
+f32ecbdf3b52: Pull complete \
+7536b8fe81ac: Pull complete \
+b147719f22c0: Pull complete \
+22f2f0aa94ae: Pull complete \
+Digest: sha256:c32f3f8364d79f71958c9ada74c43c2033d7e13d9d5fc21d3ba89322e6559c9d\
+Status: Downloaded newer image for postgres:latest\
+4cf982cb1c5ebbe343178df65aaa5c788612ebb89c4470ff61c1a827d29ecc30\
+Elizas-MacBook-Pro:~ elizato$ \
+Elizas-MacBook-Pro:~ elizato$ docker exec -it 3c2ad758d537 bash\
+Error: No such container: 3c2ad758d537\
+Elizas-MacBook-Pro:~ elizato$ psql -h localhost -U postgres\
+-bash: psql: command not found\
+Elizas-MacBook-Pro:~ elizato$ docker ps\
+CONTAINER ID   IMAGE             COMMAND                  CREATED          STATUS          PORTS      NAMES\
+4cf982cb1c5e   postgres:latest   "docker-entrypoint.s\'85"   40 seconds ago   Up 38 seconds   5432/tcp   pensive_franklin\
+c6e7da865a19   ubuntu            "bash"                   2 weeks ago      Up 2 weeks                 vigorous_northcutt\
+Elizas-MacBook-Pro:~ elizato$ \
+Elizas-MacBook-Pro:~ elizato$ \
+Elizas-MacBook-Pro:~ elizato$ docker ps\
+CONTAINER ID   IMAGE             COMMAND                  CREATED          STATUS          PORTS      NAMES\
+4cf982cb1c5e   postgres:latest   "docker-entrypoint.s\'85"   43 seconds ago   Up 41 seconds   5432/tcp   pensive_franklin\
+c6e7da865a19   ubuntu            "bash"                   2 weeks ago      Up 2 weeks                 vigorous_northcutt\
+Elizas-MacBook-Pro:~ elizato$ \
+Elizas-MacBook-Pro:~ elizato$ docker exec -it 3c2ad758d537 bash\
+Error: No such container: 3c2ad758d537\
+Elizas-MacBook-Pro:~ elizato$ docker ps\
+CONTAINER ID   IMAGE             COMMAND                  CREATED              STATUS              PORTS      NAMES\
+4cf982cb1c5e   postgres:latest   "docker-entrypoint.s\'85"   About a minute ago   Up About a minute   5432/tcp   pensive_franklin\
+c6e7da865a19   ubuntu            "bash"                   2 weeks ago          Up 2 weeks                     vigorous_northcutt\
+Elizas-MacBook-Pro:~ elizato$ docker exec -it 4cf982cb1c5e bash\
+root@4cf982cb1c5e:/# psql -h localhost -U postgres\
+psql (13.1 (Debian 13.1-1.pgdg100+1))\
+Type "help" for help.\
+\
+postgres=#  create database practicedb;\
+CREATE DATABASE\
+postgres=#  \\c practicedb;\
+You are now connected to database "practicedb" as user "postgres".\
+practicedb=# create table if not exists store(id serial, sname varchar(40) not null, qty integer not null, price float not null, primary key(id));\
+CREATE TABLE\
+practicedb=# insert into store (sname, qty, price) values ('apple', 10, 1),('pear', 5, 2),('banana', 10, 1.5),('lemon', 100, 0.1),('orange', 50, 0.2);\
+INSERT 0 5\
+practicedb=#  select * from store;\
+ id | sname  | qty | price \
+----+--------+-----+-------\
+  1 | apple  |  10 |     1\
+  2 | pear   |   5 |     2\
+  3 | banana |  10 |   1.5\
+  4 | lemon  | 100 |   0.1\
+  5 | orange |  50 |   0.2\
+(5 rows)\
+\
+practicedb=# \
+practicedb=# \
+practicedb=# \
+practicedb=# \
+practicedb=#  \\q\
+root@4cf982cb1c5e:/#  exit\
+exit\
+Elizas-MacBook-Pro:~ elizato$ docker rm -f 3c2ad758d537\
+Error: No such container: 3c2ad758d537\
+Elizas-MacBook-Pro:~ elizato$ docker rm -f 4cf982cb1c5e\
+4cf982cb1c5e\
+Elizas-MacBook-Pro:~ elizato$  vim test_server.js\
+Elizas-MacBook-Pro:~ elizato$  vim test_server.js\
+Elizas-MacBook-Pro:~ elizato$  docker run -dt -v $(pwd):/app -p 3000:3000 node:12-alpine node /app/test_server.js\
+Unable to find image 'node:12-alpine' locally\
+12-alpine: Pulling from library/node\
+0a6724ff3fcd: Pull complete \
+5fd2bdfdbf4b: Pull complete \
+80b224d472a8: Pull complete \
+e21405c347ae: Pull complete \
+Digest: sha256:41ae2b38e38e387517c59ca50498eac0537a2ff2316552c3df3b406d31414d78\
+Status: Downloaded newer image for node:12-alpine\
+85d468e5badc20bbaa298dfae72347ed826879ab61121cd51b42563cb8d07139\
+Elizas-MacBook-Pro:~ elizato$  docker run -dt -v "%cd%":/app -p 3000:3000 node:12-alpine node /app/test_server.js\
+docker: Error response from daemon: create %cd%: "%cd%" includes invalid characters for a local volume name, only "[a-zA-Z0-9][a-zA-Z0-9_.-]" are allowed. If you intended to pass a host directory, use absolute path.\
+See 'docker run --help'.\
+Elizas-MacBook-Pro:~ elizato$  docker run -dt -v $(pwd):/app -p 3000:3000 node:12-alpine node /app/test_server.js\
+3391f83eba98fd80506ac3bba9eeedd107fa18d18a722f868169ed46c0c46830\
+docker: Error response from daemon: driver failed programming external connectivity on endpoint keen_lamarr (60937a7a672f11caff9ad916dc66ee3edb0865e207b0c5a9fbaa2d96e94d5a3f): Bind for 0.0.0.0:3000 failed: port is already allocated.\
+Elizas-MacBook-Pro:~ elizato$ git add.\
+git: 'add.' is not a git command. See 'git --help'.\
+\
+The most similar command is\
+	add\
+Elizas-MacBook-Pro:~ elizato$ git add .\
+warning: could not open directory 'Library/Application Support/MobileSync/': Operation not permitted\
+gwarning: could not open directory 'Library/Application Support/CallHistoryTransactions/': Operation not permitted\
+warning: could not open directory 'Library/Application Support/com.apple.TCC/': Operation not permitted\
+iwarning: could not open directory 'Library/Application Support/AddressBook/': Operation not permitted\
+warning: could not open directory 'Library/Application Support/CallHistoryDB/': Operation not permitted\
+warning: could not open directory 'Library/IdentityServices/': Operation not permitted\
+warning: could not open directory 'Library/Messages/': Operation not permitted\
+warning: could not open directory 'Library/HomeKit/': Operation not permitted\
+warning: could not open directory 'Library/Mail/': Operation not permitted\
+warning: could not open directory 'Library/Safari/': Operation not permitted\
+warning: could not open directory 'Library/Suggestions/': Operation not permitted\
+warning: could not open directory 'Library/Containers/com.apple.Safari/': Operation not permitted\
+warning: could not open directory 'Library/Containers/com.apple.iChat/': Operation not permitted\
+warning: could not open directory 'Library/Containers/com.apple.mail/': Operation not permitted\
+warning: could not open directory 'Library/Containers/com.apple.news/': Operation not permitted\
+warning: could not open directory 'Library/PersonalizationPortrait/': Operation not permitted\
+warning: could not open directory 'Library/Metadata/CoreSpotlight/': Operation not permitted\
+warning: could not open directory 'Library/Metadata/com.apple.IntelligentSuggestions/': Operation not permitted\
+warning: could not open directory 'Library/Cookies/': Operation not permitted\
+warning: could not open directory 'Library/Caches/com.apple.safaridavclient/': Operation not permitted\
+warning: could not open directory 'Library/Caches/CloudKit/com.apple.Safari/': Operation not permitted\
+warning: could not open directory 'Library/Caches/com.apple.Safari/': Operation not permitted\
+git add .\
+git commit -m "Adding all of the screenshots for lab1"\
+git push\
+\
+^[:\
+^[^[^[\
+error: file write error: No space left on device\
+fatal: unable to write loose object file\
+Elizas-MacBook-Pro:~ elizato$ gigit add .\
+-bash: gigit: command not found\
+Elizas-MacBook-Pro:~ elizato$ git commit -m "Adding all of the screenshots for lab1"\
+On branch main\
+Untracked files:\
+  (use "git add <file>..." to include in what will be committed)\
+	\cf3 .CFUserTextEncoding\cf2 \
+	\cf3 .DS_Store\cf2 \
+	\cf3 .Trash/\cf2 \
+	\cf3 .bash_history\cf2 \
+	\cf3 .bash_sessions/\cf2 \
+	\cf3 .docker/\cf2 \
+	\cf3 .gitconfig\cf2 \
+	\cf3 .oracle_jre_usage/\cf2 \
+	\cf3 .viminfo\cf2 \
+	\cf3 Applications/\cf2 \
+	\cf3 Desktop/\cf2 \
+	\cf3 Documents/\cf2 \
+	\cf3 Downloads/\cf2 \
+	\cf3 ElizaTo_021_Labs/\cf2 \
+	\cf3 Library/\cf2 \
+	\cf3 Movies/\cf2 \
+	\cf3 Music/\cf2 \
+	\cf3 Pictures/\cf2 \
+	\cf3 Public/\cf2 \
+	\cf3 getting-started/\cf2 \
+	\cf3 lab_3/\cf2 \
+	\cf3 test_server.js\cf2 \
+\
+nothing added to commit but untracked files present (use "git add" to track)\
+Elizas-MacBook-Pro:~ elizato$ git push\
+fatal: The current branch main has no upstream branch.\
+To push the current branch and set the remote as upstream, use\
+\
+    git push --set-upstream origin main\
+\
+Elizas-MacBook-Pro:~ elizato$ \
+Elizas-MacBook-Pro:~ elizato$ \
+Elizas-MacBook-Pro:~ elizato$ }
