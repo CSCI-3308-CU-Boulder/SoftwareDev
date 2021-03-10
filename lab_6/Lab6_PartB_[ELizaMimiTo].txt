@@ -1,0 +1,140 @@
+Lab #6 Take Home
+Your name: Eliza Mimi To 
+
+
+---------------------------------------- Question 1 Query ---------------------------------------- 
+
+SELECT ship_city,count(ship_city) FROM orders GROUP BY ship_city ORDER BY count DESC LIMIT 1;
+
+
+
+---------------------------------------- Question 1 Results ---------------------------------------- 					
+
+										put result  ship_city    | count 
+----------------+-------
+ Rio de Janeiro |    34
+(1 row)
+
+
+
+---------------------------------------- Question 2 Query ---------------------------------------- 
+
+SELECT product_name FROM products AS prods NATURAL JOIN orders NATURAL JOIN order_details WHERE ship_city = 'Graz';
+									
+
+
+
+---------------------------------------- Question 2 Results ---------------------------------------- 					
+
+
+           product_name           
+----------------------------------
+ Sir Rodney's Marmalade
+ Rössle Sauerkraut
+ Gnocchi di nonna Alice
+ Louisiana Fiery Hot Pepper Sauce
+ Rhönbräu Klosterbier
+ Tofu
+ Singaporean Hokkien Fried Mee
+ Steeleye Stout
+ Sirop d'érable
+ Gudbrandsdalsost
+ Queso Manchego La Pastora
+ Konbu
+ Gumbär Gummibärchen
+ Tarte au sucre
+ Gudbrandsdalsost
+ Flotemysost
+(16 rows)										put result
+	
+
+---------------------------------------- Question 3 Query ---------------------------------------- 
+
+SELECT company_name,COUNT(company_name) AS cnt FROM customers NATURAL JOIN orders NATURAL JOIN order_details GROUP BY company_name HAVING COUNT(company_name) > (SELECT AVG(count) FROM (SELECT company_name,count(company_name) FROM customers NATURAL JOIN orders NATURAL JOIN order_details GROUP BY company_name ORDER BY count DESC) counts) ORDER BY cnt DESC;
+
+
+---------------------------------------- Question 3 Results ---------------------------------------- 					
+
+										
+          company_name          | cnt 
+--------------------------------+-----
+ Ernst Handel                   |  51
+ Save-a-lot Markets             |  49
+ QUICK-Stop                     |  44
+ Hungry Owl All-Night Grocers   |  37
+ Frankenversand                 |  34
+ Rattlesnake Canyon Grocery     |  33
+ Berglunds snabbköp             |  31
+ Mère Paillarde                 |  30
+ Wartian Herkku                 |  29
+ Lehmanns Marktstand            |  29
+ HILARION-Abastos               |  25
+ Blondesddsl père et fils       |  24
+ Die Wandernde Kuh              |  23
+ La maison d'Asie               |  21
+ Tortuga Restaurante            |  21
+ LILA-Supermercado              |  20
+ Furia Bacalhau e Frutos do Mar |  19
+ Königlich Essen                |  19
+ Ottilies Käseladen             |  19
+ Queen Cozinha                  |  18
+ Bon app'                       |  18
+ Vaffeljernet                   |  17
+ Que Delícia                    |  17
+ Seven Seas Imports             |  16
+ Ricardo Adocicados             |  16
+ Folk och fä HB                 |  16
+ Familia Arquibaldo             |  16
+ B's Beverages                  |  16
+ White Clover Markets           |  16
+ Suprêmes délices               |  16
+ Great Lakes Food Market        |  15
+ Piccolo und mehr               |  15
+ Antonio Moreno Taquería        |  15
+ Victuailles en stock           |  14
+ Bottom-Dollar Markets          |  14
+(35 rows)
+
+
+	
+
+---------------------------------------- Question 4 Query ---------------------------------------- 
+
+
+SELECT category_name,count(product_name) FROM categories RIGHT JOIN products ON products.category_id = categories.category_id GROUP BY category_name HAVING count(product_name) > 10;
+
+
+
+---------------------------------------- Question 4 Results ---------------------------------------- 					
+
+
+ category_name | count
+---------------+-------
+ Beverages     |    12
+ Seafood       |    12
+ Condiments    |    12
+ Confections   |    13
+(4 rows)
+
+	
+
+---------------------------------------- Question 5 Query ---------------------------------------- 
+
+								
+
+SELECT product_name,count,ranked FROM (SELECT product_name,count,RANK() OVER (ORDER BY count DESC) AS ranked FROM (SELECT product_name,count(order_details.product_id) AS count FROM orders FULL JOIN order_details ON orders.order_id = order_details.order_id FULL JOIN products ON products.product_id = order_details.product_id GROUP BY products.product_name,order_details.product_id) joined) fin WHERE fin.ranked = 1;
+
+
+
+---------------------------------------- Question 5 Results ---------------------------------------- 					
+
+
+
+      product_name      | count | ranked 
+------------------------+-------+--------
+ Gnocchi di nonna Alice |    29 |      1
+ Gorgonzola Telino      |    29 |      1
+ Raclette Courdavault   |    29 |      1
+(3 rows)
+	
+
